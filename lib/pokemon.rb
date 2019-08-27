@@ -5,8 +5,8 @@ class Pokemon
     @id, @name, @type, @db = id, name, type, db
   end
 
-  def self.save(name, type, db_connection)
-    db_connection.execute("INSERT INTO pokemon (name, type) VALUES (?, ?)", name, type)
+  def self.save(name, type, db)
+    db.execute("INSERT INTO pokemon (name, type) VALUES (?, ?)", name, type)
   end
 
   def self.find(id_num, db)
@@ -14,7 +14,7 @@ class Pokemon
       SELECT * FROM pokemon WHERE id = ?
     SQL
 
-    pokemon = db.execute(sql, id_num).flatten
+    pokemon = db.execute(sql, id_num)
     new_pokemon = Pokemon.new(id: pokemon[0], name: pokemon[1], type: pokemon[2], db: db)
   end
 
